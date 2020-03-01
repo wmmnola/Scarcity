@@ -8,6 +8,7 @@ class Domain {
       this.color = color;
       this.money = 0;
       this.claimedTiles = [this.city.tile];
+      this.resources = [0,0];
     }
     claimTiles(game, n){
       while(this.claimedTiles.length < n){
@@ -18,23 +19,24 @@ class Domain {
       }
       this.calcPopPercentile();
     }
+    setResourceAmnt(resource, amnt){
+      this.resources[resource.id] = amnt
+    }
     update(game) {
       this.collectTaxes();
-      this.calculateFood(game.food)
+      this.calculateFood(game.resources[1])
     }
     calculateFood(food){
       let total = 0;
       for(let tile of this.claimedTiles){
         total += tile.foodDemand;
       }
-      console.log(total);
       this.foodDemanded = total;
     }
     collectTaxes() {
       for(let tile of this.claimedTiles){
         this.money += tile.payTax();
       }
-      console.log(this.money);
     }
     calcPopPercentile() {
       let sum = 0;

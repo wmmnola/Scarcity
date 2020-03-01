@@ -37,6 +37,7 @@ class Tile{
       this.populationPercentile = cdf(population, 50, 20);
       this.resourceName ="nothing";
       this.taxPercentile = cdf(this.baseValue, mu, std);
+      this.resourceIDdemand = 1;
       //If the taxPercentile and populationPercentile are high enough generate a city on this tile
       if(this.populationPercentile > 0.95) {
           if (this.taxPercentile > 0.8){
@@ -53,7 +54,7 @@ class Tile{
       }
       update(r){
         if(!this.water) {
-          this.foodDemand = r.calculateDemand(this)
+          this.foodDemand = r[this.resourceIDdemand].calculateDemand(this)
         }
         else {
           this.foodDemand = 0;
@@ -69,6 +70,7 @@ class Tile{
       */
       addResource(r){
         this.resourceName = r.name;
+        r.addTile(this);
         this.hasResource = true;
         this.rColor = r.color;
       }

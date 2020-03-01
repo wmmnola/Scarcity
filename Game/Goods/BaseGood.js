@@ -4,6 +4,9 @@ class BaseGood {
     this.name = name;
     this.amnt = 0;
   }
+  addAmnt(n){
+    this.amnt += n;
+  }
 
 }
 module.exports = BaseGood;

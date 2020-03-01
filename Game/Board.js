@@ -25,10 +25,10 @@ class Board {
         	    }
         	}
     }
-    update(food){
+    update(r){
       for(let i = 0; i < this.length; i++){
           for(let j = 0; j < this.width; j++) {
-                this.grid[i][j].update(food);
+                this.grid[i][j].update(r);
           }
       }
     }
