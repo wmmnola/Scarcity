@@ -3,24 +3,13 @@ const BaseGood = require("./BaseGood")
 
 class PrimaryGood extends BaseGood {
   constructor(id, name, color, len, wid, numOfDomains) {
-    super(id, name);
+    super(id, name, len, wid, numOfDomains);
     this.color = color;
     this.need = 10;
     this.totaldemanded = 0;
     this.tiles = [];
-    this.grid = Array(len).fill().map(a => Array(wid));
-    this.domainAmnts = [];
   }
-  calculateDemand(tile){
-    let x = tile.x;
-    let y = tile.y
-    let d = 0;
-    if(!tile.water) {
-      d = tile.baseValue/(Math.exp(-1*tile.populationPercentile));
-    }
-    this.grid[x][y] = d;
-    return d;
-  }
+
   setDmnAmnt(n){
     this.domainAmnts = Array(n).fill(0);
   }

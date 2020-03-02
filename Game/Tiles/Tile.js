@@ -12,7 +12,7 @@ class Tile{
     * @param {Integer} x := x index of tile in board.grid
     * @param {Integer} y := y index of tile in board.grid
     */
-    constructor(x, y) {
+    constructor(x, y,id) {
       	this.x = x;
       	this.y = y;
       	this.water = true;

@@ -19,9 +19,11 @@ class Board {
           // Nice little lambda to create an mxn matrix
         	this.grid = Array(this.length).fill().map(a => Array(this.width));
           this.cities = [];
+          let c = 0;
         	for(let i = 0; i < this.length; i++){
         	    for(let j = 0; j < this.width; j++) {
-        		        this.grid[i][j] = new Tile(i, j);
+        		        this.grid[i][j] = new Tile(i, j,c);
+                    c+=1;
         	    }
         	}
     }

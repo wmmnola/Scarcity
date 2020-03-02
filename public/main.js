@@ -60,6 +60,7 @@ function selectionInfo(tiles){
   $(".selectionInfo").append('<tr><th>X, Y</th><th id=tiles>base value</th><th> Population Percentile </th><th>Resource?</th></tr>');
   for(let t of tiles){
     $(".selectionInfo").append("<tr><td>"+t.x+","+t.y+"</td><td>"+t.baseValue.toFixed(2)+"</td><td>"+t.populationPercentile.toFixed(2)+"</td>" +
-                                "<td>"+t.resourceName+"</td><td>"+t.foodDemand.toFixed(0)+"</td></tr>");
+                                "<td>"+t.resourceName+"</td><td>"+t.foodDemand.toFixed(0)+
+                                "</td><td><button id="+t.id+">Build</button></td></tr>");
   }
 }

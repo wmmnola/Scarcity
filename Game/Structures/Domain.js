@@ -9,6 +9,7 @@ class Domain {
       this.money = 0;
       this.claimedTiles = [this.city.tile];
       this.resources = [0,0];
+      this.city.setDomain(this);
     }
     claimTiles(game, n){
       while(this.claimedTiles.length < n){
@@ -32,6 +33,10 @@ class Domain {
         total += tile.foodDemand;
       }
       this.foodDemanded = total;
+    }
+    payCity(city, amnt){
+      this.money -= amnt * this.money;
+      city.money += amnt * this.money;
     }
     collectTaxes() {
       for(let tile of this.claimedTiles){
