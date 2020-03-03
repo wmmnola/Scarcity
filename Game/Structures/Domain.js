@@ -8,7 +8,7 @@ class Domain {
       this.color = color;
       this.money = 0;
       this.claimedTiles = [this.city.tile];
-      this.resources = [0,0];
+      this.resources = [0,0, 0];
       this.city.setDomain(this);
     }
     claimTiles(game, n){
@@ -26,6 +26,7 @@ class Domain {
     update(game) {
       this.collectTaxes();
       this.calculateFood(game.resources[1])
+      this.city.update();
     }
     calculateFood(food){
       let total = 0;

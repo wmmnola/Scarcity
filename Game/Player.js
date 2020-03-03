@@ -1,9 +1,8 @@
 class Player{
-  constructor(socket,game){
+  constructor(socket, game){
     this.socket = socket;
     this.game = game;
     this.money = 10000;
-    this.resources = game.resources;
     this.socket.on("test", (data) => {
 
     });

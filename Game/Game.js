@@ -1,11 +1,17 @@
 const Board = require("./Board")
 const PrimaryGood = require("./Goods/PrimaryGood")
+const BaseGood = require("./Goods/BaseGood")
 const Domain = require("./Structures/Domain")
 const Player = require("./Player")
 const random = require("random");
 const len = 25;
 const wid = 40;
-
+const food_demand = (t) => {
+        return t.baseValue/(1 +Math.exp(-1*(t.populationPercentile - 0.5)));
+    };
+const iron_demand = (t) => {
+      return Math.exp(t.baseValue/10)/(1 - t.populationPercentile);
+}
 /**@class Game := Game object*/
 class Game {
     /**
@@ -19,23 +25,26 @@ class Game {
         this.board = new Board(len,wid);
         this.players = [];
         // Terrian Generation
-        this.board.generateLand(35);
-        let iron = new PrimaryGood(0, "Iron", [128,85,0], len, wid);
-        let food = new PrimaryGood(1, "Food", [0,51,0],len, wid);
+        let iron = new PrimaryGood(0, "Iron", [128,85,0], len, wid, iron_demand);
+        let food = new PrimaryGood(1, "Food", [0,51,0],len, wid, food_demand);
+        let bleh = new BaseGood(2, "Bleh", len, wid);
         this.resources = [iron, food];
-        this.board.generateResources(50, this.resources[0]);
-        this.board.generateResources(200, this.resources[1]);
+        this.cities = []
+        this.board.generateLand(35, this.resources, this);
+        this.board.generateResources(50, this.resources[0], this);
+        this.board.generateResources(200, this.resources[1], this);
 
         //Creates a new domain for each city
 
-        for(let i = 0; i < this.board.cities.length; i++){
-          let d = new Domain(i,this.board.cities[i], [random.int(0, 255), random.int(0, 100), random.int(0, 50)]);
+        for(let i = 0; i < this.cities.length; i++){
+          let d = new Domain(i,this.cities[i], [random.int(0, 255), random.int(0, 100), random.int(0, 50)]);
           this.domains.push(d);
         }
         for(let d of this.domains){
           d.claimTiles(this,random.int(10,80));
         }
         for(let r of this.resources){
+          r.initializeDemand(this.board)
           r.setDmnAmnt(this.domains.length);
         }
 
@@ -48,8 +57,9 @@ class Game {
         d.update(this);
       }
       for(let r of this.resources){
+        if(r.produce){
         r.produce(this.domains);
-        console.log(r.name +": "+r.amnt)
+        }
       }
 
 
@@ -77,6 +87,7 @@ class Game {
     addPlayer(s){
       let p = new Player(s, this);
       this.players.push(p);
+      console.log(p);
     }
 
 }

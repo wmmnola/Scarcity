@@ -41,10 +41,10 @@ class Board {
     * @param {number} population := Population is a hidden variable of a tile, but not of a city.
                            This is the population of the given tile, but it is not recorded
     */
-    addCity(tile, population){
+    addCity(tile, population, g){
       if(tile) {
         let c = new City(tile, population, tile.baseValue);
-        this.cities.push(c);
+        g.cities.push(c);
       }
     }
     /**
@@ -54,7 +54,7 @@ class Board {
     * Then it will pick a new tile to expand from, from the list of tiles currently in the landmass
     * @param {Integer} n - number of landmasses to generate
     */
-    generateLand(n) {
+    generateLand(n, resources, g) {
       	for(let i = 0; i < n; i++){
       	    let maxSize = 100;
       	    let mass = []
@@ -76,7 +76,7 @@ class Board {
       	    for(let tile of mass){
                 // Keep track of all land tiles.
                 if(tile.water) {
-      		      tile.makeLand(this);
+      		      tile.makeLand(this,resources, g);
                 landTiles.push(tile);
                 }
 

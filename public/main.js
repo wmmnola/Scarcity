@@ -48,7 +48,7 @@ function domain_info(domains) {
     console.log(d)
     if(d.percentile){
       $(".gameInfo").append("<tr><td>"+d.id+"</td>" +"<td>"+d.claimedTiles.length+"</td>" +"<td>"+d.percentile.toFixed(2)+"</td>" +
-      "<td>"+d.money.toFixed(0)+"</td><td>"+d.foodDemanded.toFixed(0)+
+      "<td>"+d.money.toFixed(0)+"</td><td>"+d.resourceDemands[1].toFixed(0)+
                   "</td><td>"+d.resources[0].toFixed(1)+"</td><td>"+d.resources[1].toFixed(1)+"</td></tr>");
     }
   }
@@ -60,7 +60,7 @@ function selectionInfo(tiles){
   $(".selectionInfo").append('<tr><th>X, Y</th><th id=tiles>base value</th><th> Population Percentile </th><th>Resource?</th></tr>');
   for(let t of tiles){
     $(".selectionInfo").append("<tr><td>"+t.x+","+t.y+"</td><td>"+t.baseValue.toFixed(2)+"</td><td>"+t.populationPercentile.toFixed(2)+"</td>" +
-                                "<td>"+t.resourceName+"</td><td>"+t.foodDemand.toFixed(0)+
+                                "<td>"+t.resourceName+"</td><td>"+t.resourceDemands[1].toFixed(0)+
                                 "</td><td><button id="+t.id+">Build</button></td></tr>");
   }
 }
