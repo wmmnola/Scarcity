@@ -48,7 +48,7 @@ function domain_info(domains) {
     console.log(d)
     if(d.percentile){
       $(".gameInfo").append("<tr><td>"+d.id+"</td>" +"<td>"+d.claimedTiles.length+"</td>" +"<td>"+d.percentile.toFixed(2)+"</td>" +
-      "<td>"+d.money.toFixed(0)+"</td><td>"+d.resourceDemands[1].toFixed(0)+
+      "<td>"+d.money.toFixed(0)+"</td><td>"+d.city.demand.toFixed(1)+
                   "</td><td>"+d.resources[0].toFixed(1)+"</td><td>"+d.resources[1].toFixed(1)+"</td></tr>");
     }
   }

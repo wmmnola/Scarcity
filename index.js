@@ -7,7 +7,7 @@ let io = require('socket.io')(http);
 let socket_list = []
 app.use(express.static('public'))
 let g = new Game();
-//g.update();
+g.update();
 io.on('connection', newConnection);
 function newConnection(socket){
     socket_list.push(socket);
@@ -15,7 +15,7 @@ function newConnection(socket){
     g.addPlayer(socket);
     console.log(g)
     socket.emit("game_board", g.board);
-    //socket.emit("domain_info", g.domains);
+    socket.emit("domain_info", g.domains);
     socket.emit("bleh");
     //socket.on("disconnect", helloWorld);
     //socket.on("hello", helloWorld);

@@ -1,12 +1,12 @@
 class City {
-    constructor(tile, population, tax) {
+    constructor(tile, population, tax, domainid) {
       this.baseTax = tax;
       this.tile = tile;
       this.pop = population;
       this.money = 0;
     }
     setDomain(domain){
-      this.domain = domain;
+      this.domainid = domain.id;
     }
     calculateIncome(){
       if(this.domain){
@@ -14,7 +14,7 @@ class City {
       }
     }
     calculateDemand() {
-      this.demand = this.tile.populationPercentile * this.domain.totaldemanded;
+      this.demand = this.pop * this.baseTax;
     }
     calculatePrice(){
 
