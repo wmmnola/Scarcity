@@ -54,7 +54,7 @@ class Board {
     * Then it will pick a new tile to expand from, from the list of tiles currently in the landmass
     * @param {Integer} n - number of landmasses to generate
     */
-    generateLand(n, resources, g) {
+    generateLand(n, primaryGoods, game) {
       	for(let i = 0; i < n; i++){
       	    let maxSize = 100;
       	    let mass = []
@@ -76,7 +76,7 @@ class Board {
       	    for(let tile of mass){
                 // Keep track of all land tiles.
                 if(tile.water) {
-      		      tile.makeLand(this,resources, g);
+      		      tile.makeLand(game);
                 landTiles.push(tile);
                 }
 
@@ -105,7 +105,6 @@ class Board {
     }
     findTiles(lst) {
       let tiles  = [];
-      console.log(lst);
       for(let pair of lst){
         tiles.push(this.grid[pair[0]][pair[1]].convertToCell());
       }
@@ -117,7 +116,6 @@ class Board {
           for(let j = 0; j < this.width; j++) {
               let t = this.grid[i][j];
               cellGrid[i][j] = t.convertToCell();
-              console.log(t.color)
           }
       }
       const b = {

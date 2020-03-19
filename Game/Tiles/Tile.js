@@ -35,23 +35,24 @@ class Tile{
     * Determines if the base tax and population are high enough to generate a city
     * @param{Board} b := the game board
     */
-    makeLand(b, resources, g) {
+    makeLand(game) {
     	this.water = false;
     	this.setColor("Green")
     	this.baseValue = Math.abs(taxMu + taxStd*normal());
       let population = Math.floor(50 + 20*normal());
       this.populationPercentile = cdf(population, 50, 20);
       this.taxPercentile = cdf(this.baseValue, taxMu, taxStd);
+
       //If the taxPercentile and populationPercentile are high enough generate a city on this tile
       if(this.populationPercentile > 0.95) {
           if (this.taxPercentile > 0.8){
               this.isCity = true;
               console.log("new city! at "+this.x+" ,"+this.y+"with "+this.populationPercentile)
-              b.addCity(this,population, g)
+              game.board.addCity(this,population, game)
         }
       }
       for(let k = 0; k < population; k++){
-        let p = new BasePop(this, g.basePopResources)
+        let p = new BasePop(this, game.secondary)
         this.population.push(p)
       }
     }
@@ -68,6 +69,7 @@ class Tile{
       */
       addResource(r){
         this.resourceName = r.name;
+        this.resourceId = r.id
         r.addTile(this);
         this.hasResource = true;
         this.rColor = r.color;

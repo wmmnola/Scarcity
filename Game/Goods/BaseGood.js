@@ -8,6 +8,9 @@ class BaseGood {
     this.name = name;
     this.amnt = 0;
   }
+  add(increase){
+    this.amnt += increase
+  }
 
 
 }

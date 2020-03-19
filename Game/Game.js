@@ -1,5 +1,6 @@
 const Board = require("./Board")
 const PrimaryGood = require("./Goods/PrimaryGood")
+const ProducedGood = require("./Goods/ProducedGood");
 const BaseGood = require("./Goods/BaseGood")
 const Domain = require("./Structures/Domain")
 const Player = require("./Player")
@@ -22,14 +23,18 @@ class Game {
         // Terrian Generation
         let iron = new PrimaryGood(0, "Iron", [128,85,0]);
         let rawFood = new PrimaryGood(1, "Raw Food", [0,51,0]);
-        let procFood = new BaseGood(2, "Processed Food");
-        let conGood = new BaseGood(3, "Consumer Goods")
+        let procFood = new ProducedGood(2, "Processed Food");
+        let conGood = new ProducedGood(3, "Consumer Goods");
+
+        this.primary = [iron, rawFood];
+        this.secondary = [procFood, conGood];
         this.resources = [iron, rawFood, procFood, conGood];
         this.basePopResources = [procFood, conGood];
         this.cities = []
-        this.board.generateLand(35, this.resources, this);
-        this.board.generateResources(50, this.resources[0], this);
-        this.board.generateResources(200, this.resources[1], this);
+        this.board.generateLand(35, this.primary, this);
+        this.board.generateResources(50, this.primary[0], this);
+        this.board.generateResources(200, this.primary[1], this);
+        iron.produce(this.board);
 
         //Creates a new domain for each city
 
@@ -73,7 +78,6 @@ class Game {
     addPlayer(s){
       let p = new Player(s, this);
       this.players.push(p);
-      console.log(p);
     }
 
 }

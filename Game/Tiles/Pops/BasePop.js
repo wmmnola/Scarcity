@@ -13,9 +13,10 @@ class BasePop {
       let transMat = math.matrix([[1, -k], [0, 1]]);
       this.constraintVec = [minCG, minFood];
       this.demandVec = math.multiply(transMat, this.constraintVec)._data
-
-
   }
+    update(){
+      this.money += this.baseIncome;
+    }
 
 }
 

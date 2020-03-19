@@ -4,17 +4,16 @@ class Factory {
       this.budget = 1000;
       this.inputGood = inputGood;
       this.outputGood = outputGood;
-      this.price =
+      // Labor constraint
       this.wage = tile.baseValue;
       this.resource = resource;
-      this.materialCost = (tile.baseValue * tile.populationPercentile)
+      this.materialConstraint = (tile.baseValue * tile.populationPercentile)
     }
-    employ()  {
+    employ(market)  {
       this.laborBudget = (3/4)*this.budget;
       this.wageBudget = (1/4)*this.budget;
       const labourCost = this.budget / this.wage;
-      const materialCost =
-
+      const materialCost = market.priceResource(this.inputGood)
       const profitCost = this.laborBudget -
     }
   }

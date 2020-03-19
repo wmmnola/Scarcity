@@ -1,12 +1,12 @@
-const BaseGood = require("BaseGood");
+const BaseGood = require("./BaseGood");
 
 
 class ProducedGood extends BaseGood{
-    constructor(id, name, market) {
+    constructor(id, name) {
       super(id, name);
       this.amnt = 0;
 
     }
 
-
 }
+module.exports = ProducedGood;
