@@ -31,8 +31,11 @@ class Domain {
     calculateFood(food){
       let total = 0;
       for(let tile of this.claimedTiles){
-        total += tile.foodDemand;
+        for(const p of tile.population){
+          total += p.demandVec[1]
+        }
       }
+      console.log(total)
       this.foodDemanded = total;
     }
     payCity(city, amnt){

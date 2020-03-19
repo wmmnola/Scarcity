@@ -1,5 +1,4 @@
 const random = require("random");
-const Cell = require("./Cell")
 const BasePop = require("./Pops/BasePop")
 const normal = random.normal();
 const taxStd = 5;
@@ -52,7 +51,8 @@ class Tile{
         }
       }
       for(let k = 0; k < population; k++){
-        let p = new BasePop(this)
+        let p = new BasePop(this, g.basePopResources)
+        this.population.push(p)
       }
     }
       update(){
