@@ -57,10 +57,10 @@ function domain_info(domains) {
 function selectionInfo(tiles){
 
   $(".selectionInfo").empty();
-  $(".selectionInfo").append('<tr><th>X, Y</th><th id=tiles>base value</th><th> Population Percentile </th><th>Resource?</th></tr>');
+  $(".selectionInfo").append('<tr><th>X, Y</th><th id=tiles>base value</th><th> Population </th><th>Resource?</th></tr>');
   for(let t of tiles){
-    $(".selectionInfo").append("<tr><td>"+t.x+","+t.y+"</td><td>"+t.baseValue.toFixed(2)+"</td><td>"+t.populationPercentile.toFixed(2)+"</td>" +
-                                "<td>"+t.resourceName+"</td><td>"+t.resourceDemands[1].toFixed(0)+
+    $(".selectionInfo").append("<tr><td>"+t.x+","+t.y+"</td><td>"+t.baseValue.toFixed(2)+"</td><td>"+t.population.toFixed(2)+"</td>" +
+                                "<td>"+t.resourceName+
                                 "</td><td><button id="+t.id+">Build</button></td></tr>");
   }
 }

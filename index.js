@@ -16,9 +16,6 @@ function newConnection(socket){
     console.log(g)
     socket.emit("game_board", g.board.sendBoard());
     socket.emit("domain_info", g.domains);
-    socket.emit("bleh");
-    //socket.on("disconnect", helloWorld);
-    //socket.on("hello", helloWorld);
 }
 
 http.listen(3000, function(){

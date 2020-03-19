@@ -97,7 +97,8 @@ class Tile{
           hasResource : this.hasResource,
           rColor : this.rColor,
           claimed : this.claimed,
-          claimColor : this.claimColor
+          claimColor : this.claimColor,
+          population : this.population.length
         };
         return cell
       }

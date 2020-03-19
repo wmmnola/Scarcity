@@ -107,7 +107,7 @@ class Board {
       let tiles  = [];
       console.log(lst);
       for(let pair of lst){
-        tiles.push(this.grid[pair[0]][pair[1]]);
+        tiles.push(this.grid[pair[0]][pair[1]].convertToCell());
       }
       return tiles;
     }
