@@ -1,7 +1,8 @@
 const random = require("random");
+const BasePop = require("./Pops/BasePop")
 const normal = random.normal();
-const std = 5;
-const mu = 10;
+const taxStd = 5;
+const taxMu = 10;
 /**
 * @class Tile := Tile object
 */
@@ -13,15 +14,20 @@ class Tile{
     * @param {Integer} y := y index of tile in board.grid
     */
     constructor(x, y,id) {
-      	this.x = x;
-      	this.y = y;
-      	this.water = true;
-      	this.color = "blue";
-      	this.baseValue = 0;
-        this.isCity = false;
-      	this.taxPercentile = 0;
-        this.hasResource = false;
-        this.claimed = false;
+      this.x = x;
+      this.y = y;
+      this.id = id;
+      this.water = true;
+      this.color = "blue";
+      this.baseValue = 0;
+      this.taxPercentile = 0;
+      this.hasResource = false;
+      this.rColor = [0, 0, 0]
+      this.claimed = false;
+      this.isCity = false;
+      this.population = [];
+      this.resourceName ="nothing";
+
     }
     /**
     * Converts tile from a water tile to a land tiles
@@ -31,14 +37,11 @@ class Tile{
     */
     makeLand(b, resources, g) {
     	this.water = false;
-    	this.color = "green";
-    	this.baseValue = Math.abs(mu + std*normal());
-      let population = 50 + 20*normal();
+    	this.setColor("Green")
+    	this.baseValue = Math.abs(taxMu + taxStd*normal());
+      let population = Math.floor(50 + 20*normal());
       this.populationPercentile = cdf(population, 50, 20);
-      this.resourceName ="nothing";
-      this.taxPercentile = cdf(this.baseValue, mu, std);
-      this.resourceIDdemand = 1;
-      this.resourceDemands = Array(resources.length).fill(0);
+      this.taxPercentile = cdf(this.baseValue, taxMu, taxStd);
       //If the taxPercentile and populationPercentile are high enough generate a city on this tile
       if(this.populationPercentile > 0.95) {
           if (this.taxPercentile > 0.8){
@@ -47,21 +50,13 @@ class Tile{
               b.addCity(this,population, g)
         }
       }
-    }
-      payTax(){
-        let tax = 5*this.populationPercentile * this.baseValue;
-        this.baseValue *= 0.991;
-        return tax
+      for(let k = 0; k < population; k++){
+        let p = new BasePop(this, g.basePopResources)
+        this.population.push(p)
       }
-      update(resources){
-        if(!this.water) {
-          for(let i = 0; i < resources.length; i++){
-            this.resourceDemands[i] = resources[i].getDemand(this);
-          }
-        }
-        else {
-          this.resourceDemands = Array(resources.length).fill(0);
-        }
+    }
+      update(){
+
       }
 
       getPop() {
@@ -77,8 +72,11 @@ class Tile{
         this.hasResource = true;
         this.rColor = r.color;
       }
+      setColor(c){
+        this.color = c
+      }
       /**
-      * Claims a tile for a given domain
+      * Claims a Cell/Tile for a given domain
       * @param{Array} color := ordered triplet representing a domains rColor
       * @param{Integer} id := Domain's id
       */
@@ -87,6 +85,24 @@ class Tile{
         this.domainID = id;
         this.claimColor = color;
       }
+      convertToCell(){
+        const cell = {
+          x: this.x,
+          y: this.y,
+          id : this.id,
+          color : this.color,
+          water : this.water,
+          baseValue : this.baseValue,
+          taxPercentile : this.taxPercentile,
+          hasResource : this.hasResource,
+          rColor : this.rColor,
+          claimed : this.claimed,
+          claimColor : this.claimColor
+        };
+        return cell
+      }
+
+
 
 }
 module.exports = Tile;

@@ -1,5 +1,5 @@
 const random = require("random");
-let Tile = require("./Tiles/Tile");
+const Tile = require("./Tiles/Tile");
 let City = require("./Structures/City")
 let PrimaryGood = require("./Goods/PrimaryGood")
 let landTiles = [];
@@ -110,6 +110,23 @@ class Board {
         tiles.push(this.grid[pair[0]][pair[1]]);
       }
       return tiles;
+    }
+    sendBoard(){
+      let cellGrid = Array(this.length).fill().map(a => Array(this.width));
+      for(let i = 0; i < this.length; i++){
+          for(let j = 0; j < this.width; j++) {
+              let t = this.grid[i][j];
+              cellGrid[i][j] = t.convertToCell();
+              console.log(t.color)
+          }
+      }
+      const b = {
+        grid : cellGrid,
+        width : this.width,
+        length : this.length
+      };
+      return b
+
     }
 
 }
