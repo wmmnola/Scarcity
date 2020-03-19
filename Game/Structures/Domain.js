@@ -40,9 +40,7 @@ class Domain {
       city.money += amnt * this.money;
     }
     collectTaxes() {
-      for(let tile of this.claimedTiles){
-        this.money += tile.payTax();
-      }
+
     }
     calcPopPercentile() {
       let sum = 0;

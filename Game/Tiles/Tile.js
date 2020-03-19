@@ -7,7 +7,7 @@ const taxMu = 10;
 /**
 * @class Tile := Tile object
 */
-class Tile extends Cell{
+class Tile{
     /**
     * Constructs a new tile with given position in a grid
     * Initially all tiles are water with no value and no population
@@ -15,10 +15,19 @@ class Tile extends Cell{
     * @param {Integer} y := y index of tile in board.grid
     */
     constructor(x, y,id) {
-        super(id, x , y);
-        this.isCity = false;
-        this.population = [];
-        this.resourceName ="nothing";
+      this.x = x;
+      this.y = y;
+      this.id = id;
+      this.water = true;
+      this.color = "blue";
+      this.baseValue = 0;
+      this.taxPercentile = 0;
+      this.hasResource = false;
+      this.rColor = [0, 0, 0]
+      this.claimed = false;
+      this.isCity = false;
+      this.population = [];
+      this.resourceName ="nothing";
 
     }
     /**
@@ -30,8 +39,8 @@ class Tile extends Cell{
     makeLand(b, resources, g) {
     	this.water = false;
     	this.setColor("Green")
-    	this.baseValue = Math.abs(mu + std*normal());
-      let population = floor(50 + 20*normal());
+    	this.baseValue = Math.abs(taxMu + taxStd*normal());
+      let population = Math.floor(50 + 20*normal());
       this.populationPercentile = cdf(population, 50, 20);
       this.taxPercentile = cdf(this.baseValue, taxMu, taxStd);
       //If the taxPercentile and populationPercentile are high enough generate a city on this tile
@@ -63,6 +72,36 @@ class Tile extends Cell{
         this.hasResource = true;
         this.rColor = r.color;
       }
+      setColor(c){
+        this.color = c
+      }
+      /**
+      * Claims a Cell/Tile for a given domain
+      * @param{Array} color := ordered triplet representing a domains rColor
+      * @param{Integer} id := Domain's id
+      */
+      setClaimColor(color, id){
+        this.claimed = true;
+        this.domainID = id;
+        this.claimColor = color;
+      }
+      convertToCell(){
+        const cell = {
+          x: this.x,
+          y: this.y,
+          id : this.id,
+          color : this.color,
+          water : this.water,
+          baseValue : this.baseValue,
+          taxPercentile : this.taxPercentile,
+          hasResource : this.hasResource,
+          rColor : this.rColor,
+          claimed : this.claimed,
+          claimColor : this.claimColor
+        };
+        return cell
+      }
+
 
 
 }

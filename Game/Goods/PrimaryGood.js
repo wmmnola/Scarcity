@@ -3,7 +3,7 @@ const BaseGood = require("./BaseGood")
 
 class PrimaryGood extends BaseGood {
   constructor(id, name, color) {
-    super(id, name, len, wid, demandFn);
+    super(id, name);
     this.color = color;
     this.tiles = [];
   }

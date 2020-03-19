@@ -21,14 +21,15 @@ class Game {
     constructor(){
         // Creates the different kinds of goods
 
-        this.domains = [];
         this.board = new Board(len,wid);
-        this.players = [];
+        this.domains = []
+        this.players = []
         // Terrian Generation
-        let iron = new PrimaryGood(0, "Iron", [128,85,0], len, wid, iron_demand);
-        let food = new PrimaryGood(1, "Food", [0,51,0],len, wid, food_demand);
-        let bleh = new BaseGood(2, "Bleh", len, wid);
-        this.resources = [iron, food];
+        let iron = new PrimaryGood(0, "Iron", [128,85,0]);
+        let rawFood = new PrimaryGood(1, "Raw Food", [0,51,0]);
+        let procFood = new BaseGood(2, "Processed Food");
+        let conGood = new BaseGood(3, "Consumer Goods")
+        this.resources = [iron, rawFood, procFood, conGood];
         this.cities = []
         this.board.generateLand(35, this.resources, this);
         this.board.generateResources(50, this.resources[0], this);
@@ -43,11 +44,6 @@ class Game {
         for(let d of this.domains){
           d.claimTiles(this,random.int(10,80));
         }
-        for(let r of this.resources){
-          r.initializeDemand(this.board)
-          r.setDmnAmnt(this.domains.length);
-        }
-
 
     }
 
@@ -56,12 +52,6 @@ class Game {
       for(let d of this.domains){
         d.update(this);
       }
-      for(let r of this.resources){
-        if(r.produce){
-        r.produce(this.domains);
-        }
-      }
-
 
     }
     /**
