@@ -1,11 +1,9 @@
-const Factory = require("./Factory")
+const random = require("random");
+class Farm {
 
 
-class Farm extends Factory {
-
-  constructor(tile) {
-    
   }
 
 
 }
+module.exports = Farm;

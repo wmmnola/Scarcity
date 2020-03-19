@@ -1,7 +1,12 @@
 class Factory {
-  constructor(tile){
+
+    constructor(tile) {
+      this.wage = tile.baseValue;
+    }
+    employ(){
+    }
   }
 
 
-
 }
+module.exports = Factory;
