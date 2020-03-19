@@ -11,7 +11,14 @@ class PrimaryGood extends BaseGood {
   addTile(t){
     this.tiles.push(t);
   }
-
+  produce(board){
+    let grid = board.grid;
+    for(let i = 0; i < this.board.length; i++){
+      for(let j = 0; j < this.board.width; j++) {
+        
+      }
+    }
+  }
 
 
 }
