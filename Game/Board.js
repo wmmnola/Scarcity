@@ -1,6 +1,5 @@
 const random = require("random");
 const Tile = require("./Tiles/Tile");
-const Cell = require("./Tiles/Cell");
 let City = require("./Structures/City")
 let PrimaryGood = require("./Goods/PrimaryGood")
 let landTiles = [];

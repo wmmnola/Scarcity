@@ -6,12 +6,7 @@ const Player = require("./Player")
 const random = require("random");
 const len = 25;
 const wid = 40;
-const food_demand = (t) => {
-        return t.baseValue/(1 +Math.exp(-1*(t.populationPercentile - 0.5)));
-    };
-const iron_demand = (t) => {
-      return Math.exp(t.baseValue/10)/(1 - t.populationPercentile);
-}
+
 /**@class Game := Game object*/
 class Game {
     /**
@@ -30,6 +25,7 @@ class Game {
         let procFood = new BaseGood(2, "Processed Food");
         let conGood = new BaseGood(3, "Consumer Goods")
         this.resources = [iron, rawFood, procFood, conGood];
+        this.basePopResources = [procFood, conGood];
         this.cities = []
         this.board.generateLand(35, this.resources, this);
         this.board.generateResources(50, this.resources[0], this);
