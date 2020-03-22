@@ -1,5 +1,5 @@
 const random = require("random");
-
+const DomainMarket = require("./Zones/DomainMarket")
 
 class Domain {
     constructor(id,city, color){
@@ -11,7 +11,18 @@ class Domain {
       this.claimedTiles = [this.city.tile];
       this.resources = [0,0, 0];
       this.factories = [];
+      this.markets = [];
       this.city.setDomain(this);
+    }
+
+    toInfo(){
+      let compact = {
+        id : this.id,
+        color : this.color,
+        money : this.money,
+        numTiles : this.claimedTiles.length,
+      }
+      return compact
     }
 
     claimTile(tiles) {
@@ -20,16 +31,20 @@ class Domain {
       tile.setClaimColor(this.color, this.id)
       this.claimedTiles.push(tile)
     }
-    setResourceAmnt(resource, amnt){
-      this.resources[resource.id] = amnt
+    updateMarkets() {
+      for(let market of this.markets){
+        market.updateAmnt();
+      }
     }
     update(game) {
-      this.collectTaxes();
-      this.collectPrimaryResources(game.primaryGoods)
-      this.city.update();
+      this.updateMarkets();
     }
-    collectPrimaryResources(goods){
-
+    addMarket(good){
+      let market = new DomainMarket(this,good);
+      this.markets.push(market)
+    }
+    addFactory(factory){
+      this.factory.push(factory);
     }
 
 

@@ -46,7 +46,11 @@ class Game {
         this.board.claimTiles(this,this.domains, 80);
 
         for(let p of this.primary) {
+          p.initDomains(this.domains);
           p.produce(this.domains);
+        }
+        for(let d of this.domains){
+          d.update(this);
         }
     }
 
@@ -79,6 +83,12 @@ class Game {
     addPlayer(s){
       let p = new Player(s, this);
       this.players.push(p);
+    }
+    sendDomains() {
+      let dmnList = [];
+      for(let d of this.domains){
+        dmnList.push(d.toInfo());
+      }
     }
 
 }

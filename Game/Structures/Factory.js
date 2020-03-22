@@ -12,7 +12,7 @@ class Factory {
       const employRate = .1;
       this.labor = .1 * maxLabor
     }
-    produceDomain(inputMarket)  {
+    produce(inputMarket)  {
       const laborCost = this.labor * this.wage
       const materialCost = inputMarket.price();
       const consumption = (this.budget - laborCost)/materialCost;
@@ -24,5 +24,4 @@ class Factory {
   }
 
 
-}
 module.exports = Factory;

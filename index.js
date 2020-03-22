@@ -14,7 +14,7 @@ function newConnection(socket){
     console.log("Connection has been made by "+socket.id);
     g.addPlayer(socket);
     socket.emit("game_board", g.board.sendBoard());
-    socket.emit("domain_info", g.domains);
+    socket.emit("domain_info", g.sendDomains());
 }
 
 http.listen(3000, function(){

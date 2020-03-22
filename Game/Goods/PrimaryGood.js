@@ -15,8 +15,16 @@ class PrimaryGood extends BaseGood {
   addTile(t){
     this.tiles.push(t);
   }
+  initDomains(domains){
+    this.domainAmnts = []
+
+    for(let d of domains){
+      d.addMarket(this);
+      this.domainAmnts.push(0);
+    }
+    console.log(this.domainAmnts);
+  }
   produce(domains){
-    this.dmntAmnt = [];
     for(let d of domains){
       this.domains.push(d)
       for(let tile of d.claimedTiles) {
@@ -25,17 +33,18 @@ class PrimaryGood extends BaseGood {
           increase = tile.population.length * tile.baseValue * .01
         }
         this.add(increase);
-        this.dmntAmnt.push(increase);
+        this.domainAmnts[d.id]+=increase;
       }
-      console.log("Domain: "+d.id + " produced "+this.amnt + " of "+this.name)
+      console.log("Domain: "+d.id + " produced "+this.domainAmnts[d.id] + " of "+this.name)
     }
+  }
     getDomainAmnt(domain) {
-      return this.dmntAmnt[domain.id];
+      return this.domainAmnts[domain.id];
     }
     removeDomainAmnt(q,domain) {
      this.dmntAmnt[domain.id] - q;
     }
-    }
+
 
 
 }
