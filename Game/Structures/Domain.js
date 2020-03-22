@@ -6,38 +6,32 @@ class Domain {
       this.id = id;
       this.city = city;
       this.color = color;
+      this.maxSize = random.int(20, 80);
       this.money = 0;
       this.claimedTiles = [this.city.tile];
       this.resources = [0,0, 0];
       this.city.setDomain(this);
     }
-    claimTiles(game, n){
-      while(this.claimedTiles.length < n){
-        let adjTiles = game.findAdjTiles(this.claimedTiles)
-        let tile = findMax(adjTiles)
-        tile.setClaimColor(this.color, this.id)
-        this.claimedTiles.push(tile);
-      }
-      this.calcPopPercentile();
+
+    claimTile(tiles) {
+      let tile = findMax(tiles)
+      tile.isClaimed = true;
+      tile.setClaimColor(this.color, this.id)
+      this.claimedTiles.push(tile)
     }
     setResourceAmnt(resource, amnt){
       this.resources[resource.id] = amnt
     }
     update(game) {
       this.collectTaxes();
-      this.calculateFood(game.resources[1])
+      this.collectPrimaryResources(game.primaryGoods)
       this.city.update();
     }
-    calculateFood(food){
-      let total = 0;
-      for(let tile of this.claimedTiles){
-        for(const p of tile.population){
-          total += p.demandVec[1]
-        }
-      }
-      console.log(total)
-      this.foodDemanded = total;
+    collectPrimaryResources(goods){
+
     }
+
+
     payCity(city, amnt){
       this.money -= amnt * this.money;
       city.money += amnt * this.money;
@@ -51,7 +45,6 @@ class Domain {
           sum += tile.getPop();
       }
       this.percentile = sum/this.claimedTiles.length;
-      console.log(this.percentile);
     }
 }
 function findMax(lst){

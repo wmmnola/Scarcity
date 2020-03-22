@@ -32,20 +32,18 @@ class Game {
         this.basePopResources = [procFood, conGood];
         this.cities = []
         this.board.generateLand(35, this.primary, this);
-        this.board.generateResources(50, this.primary[0], this);
-        this.board.generateResources(200, this.primary[1], this);
-        iron.produce(this.board);
+        this.board.generateResources(50, iron, this);
+        this.board.generateResources(200, rawFood, this);
+
 
         //Creates a new domain for each city
-
         for(let i = 0; i < this.cities.length; i++){
           let d = new Domain(i,this.cities[i], [random.int(0, 255), random.int(0, 100), random.int(0, 50)]);
           this.domains.push(d);
         }
-        for(let d of this.domains){
-          d.claimTiles(this,random.int(10,80));
-        }
-
+        console.log("Claiming Tiles")
+        this.board.claimTiles(this,this.domains, 80);
+        console.log("CLaimed")
     }
 
     update(){

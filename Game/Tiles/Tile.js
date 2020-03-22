@@ -68,11 +68,13 @@ class Tile{
       * @param{PrimaryGood} r
       */
       addResource(r){
-        this.resourceName = r.name;
-        this.resourceId = r.id
-        r.addTile(this);
-        this.hasResource = true;
-        this.rColor = r.color;
+        if(!r.hasResource) {
+          this.resourceName = r.name;
+          this.resourceId = r.id
+          r.addTile(this);
+          this.hasResource = true;
+          this.rColor = r.color;
+        }
       }
       setColor(c){
         this.color = c
