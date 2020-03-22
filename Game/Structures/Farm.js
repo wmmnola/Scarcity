@@ -1,5 +1,5 @@
 const random = require("random");
-class Farm {
+class Farm  {
 
 
   }

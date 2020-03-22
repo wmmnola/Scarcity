@@ -8,13 +8,18 @@ class Factory {
       this.wage = tile.baseValue;
       this.resource = resource;
       this.materialConstraint = (tile.baseValue * tile.populationPercentile)
+      const maxLabor = tile.percentile;
+      const employRate = .1;
+      this.labor = .1 * maxLabor
     }
-    employ(market)  {
-      this.laborBudget = (3/4)*this.budget;
-      this.wageBudget = (1/4)*this.budget;
-      const labourCost = this.budget / this.wage;
-      const materialCost = market.priceResource(this.inputGood)
-      const profitCost = this.laborBudget -
+    produceDomain(inputMarket)  {
+      const laborCost = this.labor * this.wage
+      const materialCost = inputMarket.price();
+      const consumption = (this.budget - laborCost)/materialCost;
+      console.log(this.consumption)
+      const produce = 2*consumption + (1/2)*this.laborCost;
+      inputMarket.remove(consumption);
+      console.log(consumption+"was consumed of "+this.inputGood.name)
     }
   }
 

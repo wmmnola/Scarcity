@@ -10,6 +10,7 @@ class Domain {
       this.money = 0;
       this.claimedTiles = [this.city.tile];
       this.resources = [0,0, 0];
+      this.factories = [];
       this.city.setDomain(this);
     }
 

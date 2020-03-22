@@ -109,7 +109,7 @@ class Board {
             t = landTiles[ran];
             if(n > maxRec) break;
           }
-          t.addResource(resource);
+          t.addPrimaryGood(resource);
         }
         console.log("generated resources")
 

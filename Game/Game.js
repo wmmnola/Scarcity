@@ -4,6 +4,7 @@ const ProducedGood = require("./Goods/ProducedGood");
 const BaseGood = require("./Goods/BaseGood")
 const Domain = require("./Structures/Domain")
 const Player = require("./Player")
+const Factory = require("./Structures/Factory");
 const random = require("random");
 const len = 25;
 const wid = 40;
@@ -43,11 +44,13 @@ class Game {
         }
         console.log("Claiming Tiles")
         this.board.claimTiles(this,this.domains, 80);
-        console.log("CLaimed")
+
+        for(let p of this.primary) {
+          p.produce(this.domains);
+        }
     }
 
     update(){
-      this.board.update(this.resources);
       for(let d of this.domains){
         d.update(this);
       }

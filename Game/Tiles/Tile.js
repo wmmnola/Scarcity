@@ -67,7 +67,7 @@ class Tile{
       * Adds a resource to the tiles. Also ensures the resource color
       * @param{PrimaryGood} r
       */
-      addResource(r){
+      addPrimaryGood(r){
         if(!r.hasResource) {
           this.resourceName = r.name;
           this.resourceId = r.id
@@ -99,6 +99,7 @@ class Tile{
           baseValue : this.baseValue,
           taxPercentile : this.taxPercentile,
           hasResource : this.hasResource,
+          resourceName : this.resourceName,
           rColor : this.rColor,
           claimed : this.claimed,
           claimColor : this.claimColor,
