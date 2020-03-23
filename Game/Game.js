@@ -50,14 +50,13 @@ class Game {
           p.produce(this.domains);
         }
         for(let d of this.domains){
+          let fac = new Factory(d.claimedTiles[0], this.primary[0], this.secondary[1])
+          d.addFactory(fac);
           d.update(this);
         }
     }
 
     update(){
-      for(let d of this.domains){
-        d.update(this);
-      }
 
     }
     /**

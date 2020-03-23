@@ -1,6 +1,7 @@
 const random = require("random");
 const DomainMarket = require("./Zones/DomainMarket")
 
+
 class Domain {
     constructor(id,city, color){
       this.id = id;
@@ -38,16 +39,18 @@ class Domain {
     }
     update(game) {
       this.updateMarkets();
+      for(let fac of this.factories){
+        let m = find_market_by_good(this.markets, fac.inputGood)
+        fac.produce(m);
+      }
     }
     addMarket(good){
       let market = new DomainMarket(this,good);
       this.markets.push(market)
     }
     addFactory(factory){
-      this.factory.push(factory);
+      this.factories.push(factory);
     }
-
-
     payCity(city, amnt){
       this.money -= amnt * this.money;
       city.money += amnt * this.money;
@@ -62,6 +65,13 @@ class Domain {
       }
       this.percentile = sum/this.claimedTiles.length;
     }
+}
+
+function find_market_by_good(markets, good){
+  for(let m of markets){
+    if(m.good.id == good.id) return m;
+  }
+  return -1;
 }
 function findMax(lst){
   let max = 0;

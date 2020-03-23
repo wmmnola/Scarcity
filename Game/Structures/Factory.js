@@ -1,25 +1,26 @@
 class Factory {
     constructor(tile, inputGood, outputGood) {
       this.tile = tile;
-      this.budget = 1000;
+      this.budget = 200;
       this.inputGood = inputGood;
+      console.log(inputGood.name)
       this.outputGood = outputGood;
       // Labor constraint
       this.wage = tile.baseValue;
-      this.resource = resource;
+      this.outputGood = outputGood;
       this.materialConstraint = (tile.baseValue * tile.populationPercentile)
-      const maxLabor = tile.percentile;
+      const maxLabor = tile.population.length;
       const employRate = .1;
       this.labor = .1 * maxLabor
     }
     produce(inputMarket)  {
       const laborCost = this.labor * this.wage
-      const materialCost = inputMarket.price();
+      const materialCost = inputMarket.getPrice();
       const consumption = (this.budget - laborCost)/materialCost;
-      console.log(this.consumption)
+      this.consumption = consumption
       const produce = 2*consumption + (1/2)*this.laborCost;
-      inputMarket.remove(consumption);
-      console.log(consumption+"was consumed of "+this.inputGood.name)
+      //inputMarket.remove(consumption);
+      console.log(this.consumption+" was consumed of "+this.inputGood.name)
     }
   }
 
