@@ -2,6 +2,7 @@ const random = require("random");
 const Tile = require("./Tiles/Tile");
 let City = require("./Structures/City")
 let PrimaryGood = require("./Goods/PrimaryGood")
+const LIM = 1000;
 let landTiles = [];
 /** @class Represents the Game Board. This object is passed to the client*/
 class Board {
@@ -54,7 +55,7 @@ class Board {
     * Then it will pick a new tile to expand from, from the list of tiles currently in the landmass
     * @param {Integer} n - number of landmasses to generate
     */
-    generateLand(n, resources, g) {
+    generateLand(n, primaryGoods, game) {
       	for(let i = 0; i < n; i++){
       	    let maxSize = 100;
       	    let mass = []
@@ -69,17 +70,21 @@ class Board {
             		let seed_index = random.int(0, mass.length - 1);
             		let seed = mass[seed_index]
                 //Pick a neighbor from that tile and add it to the landmass
-            		let tile = pick_tile_neighbor(seed, this.grid);
-            		mass.push(tile);
-      	    }
+            		let tile = pick_tile_neighbor(seed, game);
+                if(tile) {
+                  mass.push(tile);
+                }
+                else {
+                  break;
+                }
 
+      	    }
       	    for(let tile of mass){
                 // Keep track of all land tiles.
                 if(tile.water) {
-      		      tile.makeLand(this,resources, g);
-                landTiles.push(tile);
+        		      tile.makeLand(game);
+                  landTiles.push(tile);
                 }
-
       	    }
       	}
     }
@@ -94,22 +99,41 @@ class Board {
         for(let i = 0; i < n; i++){
           let ran = random.int(0, landTiles.length - 1);
           let t = landTiles[ran];
+          let maxRec = 100
+          let n = 0;
           // If the tile already has a resource pick a different tile.
           //// TODO: add break condition, this could run indefinitly
           while(t.hasResource){
+            n+=1
             ran = random.int(0, landTiles.length - 1);
             t = landTiles[ran];
+            if(n > maxRec) break;
           }
-          t.addResource(resource);
+          t.addPrimaryGood(resource);
         }
+        console.log("generated resources")
+
     }
     findTiles(lst) {
       let tiles  = [];
-      console.log(lst);
       for(let pair of lst){
         tiles.push(this.grid[pair[0]][pair[1]].convertToCell());
       }
       return tiles;
+    }
+    claimTiles(game,domains, n) {
+      for(let i = 0; i < n; i++){
+        for(let d of domains) {
+          if(i <= d.maxSize) {
+            let adjTiles = game.findAdjTiles(d.claimedTiles)
+            let validTiles = []
+            for(let tile of adjTiles) {
+              if(!tile.claimed && !tile.isWater) validTiles.push(tile)
+            }
+            d.claimTile(validTiles);
+          }
+        }
+      }
     }
     sendBoard(){
       let cellGrid = Array(this.length).fill().map(a => Array(this.width));
@@ -117,7 +141,6 @@ class Board {
           for(let j = 0; j < this.width; j++) {
               let t = this.grid[i][j];
               cellGrid[i][j] = t.convertToCell();
-              console.log(t.color)
           }
       }
       const b = {
@@ -130,43 +153,23 @@ class Board {
     }
 
 }
+function findUnclaimedTile(tiles){
+  let max = 0
+  let maxTile = tiles[0];
+    for(let tiles of tile){
+      if(tile.populationPercentile * tile.baseValue > max && !tile.claimed){
+        max = tile.populationPercentile * tile.baseValue;
+        maxTile = tile;
+      }
+    }
+  return maxTile
+}
 
-function pick_tile_neighbor(tile, g){
-    let x1 = random.boolean();
-    let y1 = random.boolean();
-    if(x1 && y1) {
-    	if(g[tile.x+1] && g[tile.x + 1][tile.y]){
-    	    return g[tile.x+1][tile.y]
-    	}
-    	else {
-    	    return pick_tile_neighbor(tile, g);
-    	}
-    }
-    if(x1 && !y1) {
-    	if( g[tile.x +1] && g[tile.x + 1][tile.y]){
-    	    return g[tile.x+1][tile.y]
-    	}
-    	else {
-    	    return pick_tile_neighbor(tile, g);
-    	}
-    }
-    if(!x1 && y1) {
-    	if(g[tile.x] && g[tile.x][tile.y + 1]){
-    	    return g[tile.x][tile.y+1]
-    	}
-    	else {
-    	    return pick_tile_neighbor(tile, g);
-    	}
-    }
-    else {
-    	if(g[tile.x] && g[tile.x][tile.y - 1]){
-    	    return g[tile.x][tile.y-1]
-    	}
-    	else {
-    	    return pick_tile_neighbor(tile, g);
-    	}
-    }
 
+function pick_tile_neighbor(tile, game){
+  let adjTiles = game.findAdjTiles([tile])
+  let r = random.int(0, adjTiles.length-1)
+  return adjTiles[r]
 }
 
 module.exports = Board;

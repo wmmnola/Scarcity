@@ -1,4 +1,5 @@
 const random = require("random");
+const DomainMarket = require("./Zones/DomainMarket")
 
 
 class Domain {
@@ -6,37 +7,49 @@ class Domain {
       this.id = id;
       this.city = city;
       this.color = color;
+      this.maxSize = random.int(20, 80);
       this.money = 0;
       this.claimedTiles = [this.city.tile];
       this.resources = [0,0, 0];
+      this.factories = [];
+      this.markets = [];
       this.city.setDomain(this);
     }
-    claimTiles(game, n){
-      while(this.claimedTiles.length < n){
-        let adjTiles = game.findAdjTiles(this.claimedTiles)
-        let tile = findMax(adjTiles)
-        tile.setClaimColor(this.color, this.id)
-        this.claimedTiles.push(tile);
+
+    toInfo(){
+      let compact = {
+        id : this.id,
+        color : this.color,
+        money : this.money,
+        numTiles : this.claimedTiles.length,
       }
-      this.calcPopPercentile();
+      return compact
     }
-    setResourceAmnt(resource, amnt){
-      this.resources[resource.id] = amnt
+
+    claimTile(tiles) {
+      let tile = findMax(tiles)
+      tile.isClaimed = true;
+      tile.setClaimColor(this.color, this.id)
+      this.claimedTiles.push(tile)
+    }
+    updateMarkets() {
+      for(let market of this.markets){
+        market.updateAmnt();
+      }
     }
     update(game) {
-      this.collectTaxes();
-      this.calculateFood(game.resources[1])
-      this.city.update();
-    }
-    calculateFood(food){
-      let total = 0;
-      for(let tile of this.claimedTiles){
-        for(const p of tile.population){
-          total += p.demandVec[1]
-        }
+      this.updateMarkets();
+      for(let fac of this.factories){
+        let m = find_market_by_good(this.markets, fac.inputGood)
+        fac.produce(m);
       }
-      console.log(total)
-      this.foodDemanded = total;
+    }
+    addMarket(good){
+      let market = new DomainMarket(this,good);
+      this.markets.push(market)
+    }
+    addFactory(factory){
+      this.factories.push(factory);
     }
     payCity(city, amnt){
       this.money -= amnt * this.money;
@@ -51,8 +64,14 @@ class Domain {
           sum += tile.getPop();
       }
       this.percentile = sum/this.claimedTiles.length;
-      console.log(this.percentile);
     }
+}
+
+function find_market_by_good(markets, good){
+  for(let m of markets){
+    if(m.good.id == good.id) return m;
+  }
+  return -1;
 }
 function findMax(lst){
   let max = 0;
