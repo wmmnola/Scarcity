@@ -1,5 +1,5 @@
 let Market = require("./Market");
-
+const lam = 0.02;
 class DomainMarket extends Market {
 
   constructor(domain, good){
@@ -7,13 +7,12 @@ class DomainMarket extends Market {
     this.domain = domain;
   }
   getPrice(){
-    this.price = (this.good.baseCost/this.amnt)
+    this.price = lam * (this.amnt)
     return this.price;
   }
   updateAmnt() {
     this.amnt = this.good.getDomainAmnt(this.domain);
-    console.log(this.amnt)
-    this.price = (this.amnt/this.good.baseCost);
+    this.price = lam *(this.amnt)
     console.log(this.good.name +" is priced at "+this.price+" in domain : "+this.domain.id)
   }
 
