@@ -22,7 +22,6 @@ class PrimaryGood extends BaseGood {
       d.addMarket(this);
       this.domainAmnts.push(0);
     }
-    console.log(this.domainAmnts);
   }
   produce(domains){
     for(let d of domains){
@@ -42,7 +41,8 @@ class PrimaryGood extends BaseGood {
       return this.domainAmnts[domain.id];
     }
     removeDomainAmnt(q,domain) {
-     this.dmntAmnt[domain.id] - q;
+     this.domainAmnts[domain.id] - q;
+     this.remove(q);
     }
 
 

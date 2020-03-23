@@ -18,6 +18,7 @@ class Factory {
       const consumption = (this.budget - laborCost)/materialCost;
       console.log("cost : "+materialCost +" labor cost: "+laborCost)
       this.consumption = consumption > 0 ? consumption : 0;
+      inputMarket.buy(this.consumption)
       const produce = 2*consumption + (1/2)*laborCost;
 
       //inputMarket.remove(consumption);
