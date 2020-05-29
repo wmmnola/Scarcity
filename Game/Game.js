@@ -5,6 +5,7 @@ const BaseGood = require("./Goods/BaseGood")
 const Domain = require("./Structures/Domain")
 const Player = require("./Player")
 const Factory = require("./Structures/Factory");
+const WorldMarket = require("./Structures/Zones/WorldMarket");
 const random = require("random");
 const len = 25;
 const wid = 40;
@@ -54,6 +55,7 @@ class Game {
           d.addFactory(fac);
           d.update(this);
         }
+        let capitalism = new WorldMarket()
     }
 
     update(){

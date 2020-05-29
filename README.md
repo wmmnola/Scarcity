@@ -1,2 +1,2 @@
 # Scarcity
-** An open source resource mangement game**
+#### *An open source resource mangement game*
