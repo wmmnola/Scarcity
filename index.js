@@ -1,19 +1,17 @@
 const express = require('express');
 const app = express();
-
+let Game = require("./Game/Game");
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
 let socket_list = []
 app.use(express.static('public'))
-
+let g = new Game();
+g.update();
 io.on('connection', newConnection);
 function newConnection(socket){
     socket_list.push(socket);
     console.log("Connection has been made by "+socket.id);
-    g.addPlayer(socket);
-    socket.emit("game_board", g.board.sendBoard());
-    socket.emit("domain_info", g.sendDomains());
 }
 
 http.listen(3000, function(){
