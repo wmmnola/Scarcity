@@ -7,11 +7,12 @@ let io = require('socket.io')(http);
 let socket_list = []
 app.use(express.static('public'))
 let g = new Game();
-g.update();
+
 io.on('connection', newConnection);
 function newConnection(socket){
     socket_list.push(socket);
     console.log("Connection has been made by "+socket.id);
+    socket.emit("game_board", g.board.grid);
 }
 
 http.listen(3000, function(){
