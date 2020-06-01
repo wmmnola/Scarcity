@@ -3,21 +3,34 @@ const random = require('random')
 class Province {
 
     constructor(id, x, y){
-        self.id = id;
-        self.x = x;
-        self.y = y;
-        self.tiles = [];
-        self.baseTax = Math.abs(random.gaussian())
-        self.pop =5 + 10*random.gaussian()
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.tiles = [];
+        this.baseTax = Math.abs(random.normal())
+        this.pop =5 + 10*random.normal()
     }
     addTile(t) {
-        self.tiles.push(t)
+        this.tiles.push(t)
     }
     collectTax() {
-        return self.pop + self.baseTax
+        return this.pop + this.baseTax
+    }
+    getTradeDirec() {
+        let avgX = 0;
+        let avgY = 0;
+        let avgTheta = 0;
+
+        for(let t of this.tiles){
+            avgX += t.tradeX
+            avgY += t.tradeY
+            avgTheta = t.theta
+        }
+        this.tradeX = avgX/this.tiles.length;
+        this.tradeY = avgY/this.tiles.length;
+        this.theta = Math.asin(this.tradeX)
     }
 
-
-
-
 }
+
+module.exports = Province;

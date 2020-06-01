@@ -13,6 +13,8 @@ class Game {
         // Creates the different kinds of goods
         this.board = new Board(20);
         this.board.generate();
+        this.board.generateProvinces(3);
+        this.board.calculateTrade();
       }
 
     update(){
