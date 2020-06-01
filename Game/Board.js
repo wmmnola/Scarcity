@@ -2,6 +2,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const Tile = require("./Tile")
 const perlin = require('perlin-noise');
+const random = require("random")
 
 
 class Board {
@@ -22,14 +23,23 @@ class Board {
 
     generate() {
         this.grid = Array(this.size).fill(0).map(x => Array(this.size).fill(0))
+        let noise = perlin.generatePerlinNoise(this.size,this.size);
         for(let i = 0; i < this.size; i++){
             for(let j = 0; j < this.size; j++) {
-                let h = perlin.generatePerlinNoise(i, j);
+                let h = noise[i + j*this.size]
+                console.log("Generated tile "+i+","+j+"with height "+h)
                 this.grid[i][j] = new Tile(i, j, h);
             }
         }
     }
-
+    generateProvinces(n) {
+        this.provinces = [];
+        for(let i = 0; i < n; i++){
+            let x = random.uniform(0, this.size)
+            let y = random.uniform(0, this.size)
+            this.provinces.push(new Province(i, x, y))
+        }
+    }
 
 
 

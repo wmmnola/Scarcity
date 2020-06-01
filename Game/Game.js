@@ -11,7 +11,7 @@ class Game {
     */
     constructor() {
         // Creates the different kinds of goods
-        this.board = new Board(200);
+        this.board = new Board(20);
         this.board.generate();
       }
 
