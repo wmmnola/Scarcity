@@ -12,7 +12,7 @@ class Game {
     constructor() {
         // Creates the different kinds of goods
         this.board = new Board(200);
-        this.board.loadFromFile();
+        this.board.generate();
       }
 
     update(){
