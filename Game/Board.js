@@ -39,18 +39,18 @@ class Board {
     }
     generateProvinces(n) {
         this.provinces = [];
+        this.adj = Array(n).fill(0).map(x => Array(n).fill(0));
         for(let i = 0; i < n; i++){
             let x = this.size * random.float();
             let y = this.size * random.float();
             this.provinces.push(new Province(i,x,y));
         }
-        for(let i = 0; i < this.size; i++){
+        for(let i = 0; i <this.size; i++){
             for(let j = 0; j < this.size; j++) {
                 let minDistance = 99999;
                 let province = this.provinces[0];
                 for (let prov of this.provinces) {
                     let distance = distSq(i, j, prov.x, prov.y)
-                    console.log(distance)
                     if(distance < minDistance) {
                         minDistance = distance;
                         province = prov;
@@ -67,6 +67,21 @@ class Board {
             console.log("The trade vector in province : "+p.id+":"+p.tradeX + " "+p.tradeY);
          }
     }
+    calculateTradeFlow() {
+        for (let p of this.provinces) {
+            let adjProv = this.getAdjProv(p);
+            p.tradeFlow(adjProv);
+        }
+    }
+    getAdjProv(prov) {
+        let i = prov.id;
+        let adjProv = [];
+        for(let k = 0; k < this.provinces.length; k++) {
+            console.log(this.adj[i][k]);
+            if(this.adj[i][k] == 1) adjProv.push(this.provinces[k]);
+        }
+        return adjProv;
+    }
 
     triangulate() {
         const pts = []
@@ -75,12 +90,11 @@ class Board {
         }
         let del = D.Delaunay.from(pts);
         for(let i = 0; i < pts.length; i++){
-            let s = ""
             for(let n of del.neighbors(i)){
-                s += n+" "
+                this.adj[i][n] = 1;
             }
-            console.log(s)
         }
+        console.log(this.adj);
     }
 }
 
