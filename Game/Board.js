@@ -36,6 +36,8 @@ class Board {
                 this.grid[i][j] = new Tile(i, j, h);
             }
         }
+        this.source = [this.size * random.float(),this.size* random.float()];
+        this.sink = [this.size * random.float(), this.size*random.float()];
     }
     generateProvinces(n) {
         this.provinces = [];
@@ -63,7 +65,7 @@ class Board {
     }
     calculateTrade() {
         for (let p of this.provinces) {
-            p.getTradeDirec();
+            p.getTradeDirec(this.source, this.sink);
             console.log("The trade vector in province : "+p.id+":"+p.tradeX + " "+p.tradeY);
          }
     }
