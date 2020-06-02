@@ -1,9 +1,13 @@
+
+
 const csv = require('csv-parser');
 const fs = require('fs');
 const Tile = require("./Tile")
 const Province = require("./Province");
 const perlin = require('perlin-noise');
 const random = require("random")
+const D = require("d3-delaunay");
+
 
 
 class Board {
@@ -40,7 +44,6 @@ class Board {
             let y = this.size * random.float();
             this.provinces.push(new Province(i,x,y));
         }
-
         for(let i = 0; i < this.size; i++){
             for(let j = 0; j < this.size; j++) {
                 let minDistance = 99999;
@@ -55,19 +58,32 @@ class Board {
                 }
                 console.log("province:("+i+", "+j+") added to "+province.id)
                 province.addTile(this.grid[i][j])
-
             }
+        }
+    }
+    calculateTrade() {
+        for (let p of this.provinces) {
+            p.getTradeDirec();
+            console.log("The trade vector in province : "+p.id+":"+p.tradeX + " "+p.tradeY);
+         }
+    }
 
-
+    triangulate() {
+        const pts = []
+        for(let p of this.provinces){
+            pts.push([p.x, p.y])
+        }
+        let del = D.Delaunay.from(pts);
+        for(let i = 0; i < pts.length; i++){
+            let s = ""
+            for(let n of del.neighbors(i)){
+                s += n+" "
+            }
+            console.log(s)
+        }
     }
 }
-calculateTrade() {
-    for (let p of this.provinces) {
-        p.getTradeDirec();
-        console.log("the trade heading is "+p.theta)
-    }
-}
-}
+
 
 function distSq(x1, y1, x2, y2){;
     let d1 = Math.pow(x2  - x1, 2);

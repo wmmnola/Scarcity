@@ -7,11 +7,13 @@ class Province {
         this.x = x;
         this.y = y;
         this.tiles = [];
+        this.provColor = 255*Math.random();
         this.baseTax = Math.abs(random.normal())
         this.pop =5 + 10*random.normal()
     }
     addTile(t) {
         this.tiles.push(t)
+        t.setProvColor(this.provColor)
     }
     collectTax() {
         return this.pop + this.baseTax
@@ -24,11 +26,9 @@ class Province {
         for(let t of this.tiles){
             avgX += t.tradeX
             avgY += t.tradeY
-            avgTheta = t.theta
         }
-        this.tradeX = avgX/this.tiles.length;
-        this.tradeY = avgY/this.tiles.length;
-        this.theta = Math.asin(this.tradeX)
+        this.tradeX = avgX/this.tiles.length
+        this.tradeY = avgY/this.tiles.length
     }
 
 }
