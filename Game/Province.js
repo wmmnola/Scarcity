@@ -1,4 +1,5 @@
-const random = require('random')
+const random = require('random');
+const normal = random.normal();
 
 class Province {
     constructor(id, x, y){
@@ -7,8 +8,8 @@ class Province {
         this.y = y;
         this.tiles = [];
         this.provColor = 255*Math.random();
-        this.baseTax = Math.random();
-        this.pop =5 + 2*Math.random(-1, 1)
+        this.baseTax = Math.abs(normal())
+        this.pop =5 + 2*normal()
         this.adjProvinces = [];
         this.units = [];
     }
@@ -17,7 +18,6 @@ class Province {
         t.setProvColor(this.provColor)
     }
     collectTax() {
-        console.log("baseTax: "+this.baseTax)
         return this.pop + this.baseTax
     }
     getTradeDirec(source, sink) {
