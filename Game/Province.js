@@ -7,8 +7,8 @@ class Province {
         this.y = y;
         this.tiles = [];
         this.provColor = 255*Math.random();
-        this.baseTax = Math.abs(random.normal())
-        this.pop =5 + 10*random.normal()
+        this.baseTax = Math.random();
+        this.pop =5 + 2*Math.random(-1, 1)
         this.adjProvinces = [];
         this.units = [];
     }
@@ -17,6 +17,7 @@ class Province {
         t.setProvColor(this.provColor)
     }
     collectTax() {
+        console.log("baseTax: "+this.baseTax)
         return this.pop + this.baseTax
     }
     getTradeDirec(source, sink) {
@@ -37,8 +38,8 @@ class Province {
         let closestProv = adjProv;
         for(let p of adjProv) {
             let dot = p.x * this.tradeX + p.y * this.tradeY;
-            let tradeDist = this.distFrom({x: this.tradeX, y: this.tradeY});
-            let costheta = dot/(tradeDist*this.distFrom(p));
+            this.tradeDist = this.distFrom({x: this.tradeX, y: this.tradeY});
+            let costheta = dot/(this.tradeDist*this.distFrom(p));
             let angle = Math.acos(costheta);
             if(angle < smallestAngle) {
                 angle = smallestAngle
@@ -74,6 +75,11 @@ class Province {
             this.removeUnit(u);
         }
     }
+    collectTrade(){
+        return this.tradeDist;
+    }
+
+
 }
 
 

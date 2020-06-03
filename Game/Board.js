@@ -4,6 +4,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const Tile = require("./Tile")
 const Province = require("./Province");
+const Domain = require("./Domain")
 const perlin = require('perlin-noise');
 const random = require("random")
 const D = require("d3-delaunay");
@@ -12,7 +13,9 @@ const D = require("d3-delaunay");
 
 class Board {
   constructor(size) {
-    this.size = size;
+        this.size = size;
+        this.grid = [];
+        this.domains = [];
   }
   loadFromFile() {
     this.grid = Array(this.size).fill(0).map(x => Array(this.size).fill(0))
@@ -83,7 +86,6 @@ class Board {
         }
         return adjProv;
     }
-
     triangulate() {
         const pts = []
         for(let p of this.provinces){
@@ -96,6 +98,12 @@ class Board {
             }
         }
         console.log(this.adj);
+    }
+    addDomain() {
+        let r = random.int(0, this.provinces.length);
+        let d = new Domain(this.domains.length,[this.provinces[r]]);
+        this.domains.push(d);
+
     }
 }
 

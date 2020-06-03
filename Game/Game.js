@@ -17,6 +17,7 @@ class Game {
         this.board.calculateTrade();
         this.board.triangulate();
         this.board.calculateTradeFlow();
+        this.board.addDomain();
       }
 
     update(){
