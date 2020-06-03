@@ -79,7 +79,6 @@ class Board {
         let i = prov.id;
         let adjProv = [];
         for(let k = 0; k < this.provinces.length; k++) {
-            console.log(this.adj[i][k]);
             if(this.adj[i][k] == 1) adjProv.push(this.provinces[k]);
         }
         return adjProv;
