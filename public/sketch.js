@@ -2,75 +2,67 @@
 let board;
 let has_board;
 let tile_size = 35;
-
-
-
+let r = 60;
+let k = 50;
+let size = 10;
+let grid = [];
+let active = [];
+let w;
+let count = 0;
+let cols, rows;
+let n = 15;
+let tiles = [];
+let camX = 0;
+let camY = 0;
+let tilesMoved = 5;
 let sketch = function(p) {
       p.setup = function() {
+        has_board = false;
+        p.createCanvas(500, 500);
       }
-
-       p.draw = function() {
-          p.background(50);
-          if(has_board) {
-              	for(let i = 0; i < board.length; i++){
-              	    for(let j = 0; j<board.width; j++){
-                    		t = board.grid[i][j];
-
-                        p.push();
-                    		if(p.keyIsDown(66)){
-                    		    drawBaseTax(t, tile_size, p);
-                    		}
-                        else if (p.keyIsDown(82)) {
-                          drawResource(t, tile_size, p)
-                        }
-                        else if (p.keyIsDown(80)){
-                          drawStates(t, tile_size, p);
-                        }
-                    		else {
-                    		    drawCell(t,tile_size, p);
-                    		}
-                        p.pop();
-              	    }
-              	}
-          }
-
-      }
-      p.keyPressed = function(){
-        if(p.keyCode == 81){
-          console.log("SEND!")
-          let query = {
-            socketId : p.socket.id,
-            tiles : []
-          };
-          for(let i = 0; i< board.length; i++){
-            for(let j = 0; j<board.width; j++){
-              t = board.grid[i][j];
-              if(t.isSelected && !t.water){
-                query.tiles.push([i,j]);
+       p.show = function() {
+        p.noStroke();
+        if(has_board) {
+          for(let x = 0; x < p.floor(p.width/n); x++){
+            for(let y = 0; y < p.floor(p.width/n); y++) {
+              let i = p.abs(camX + x) % board.length;
+              let j = p.abs(camY + y) % board.length;
+              t = board[i][j]
+              p.fill(t.provColor);
+              if(t.h < 0.5) {
+                p.fill(0,0,200);
               }
+              if(t.x == 0 || t.x == 199 || t.y ==0 || t.y == 199) {
+                p.fill(0);
+              }
+              p.square(x*n, y*n, n*n);
             }
           }
-          p.socket.emit("test2",query)
         }
       }
-       p.mousePressed = function() {
-
-        let x = p.floor(p.mouseX/(tile_size));
-        let y = p.floor(p.mouseY/(tile_size))
-        if(board.grid[y]) {
-        board.grid[y][x].isSelected = board.grid[y][x].isSelected ? false : true;
-        console.log(y, x)
-        console.log(board.grid[y][x].domainID)
+      p.keyTyped = function() {
+        console.log(p.key);
+        if(p.key === "d") {
+          camX += tilesMoved;
+          camX = camX % board.length;
+        }
+        if(p.key === "s"){
+          camY += tilesMoved;
+          camX = camX % board.length;
+        }
+        if(p.key === "a") {
+          camX -= tilesMoved;
+          camX = camX % board.length;
+        }
+        if(p.key === "w"){
+          camY -= tilesMoved;
+          camX = camX % board.length;
+        }
+        p.show();
       }
-      }
-      p.addSocket = function(s){
-        p.socket = s;
-      }
-
-       p.init_game = function(data){
-          p.createCanvas(tile_size*data.width, tile_size*data.length);
-          board = data;
-          has_board = true;
-
+      p.init_game = function(b){
+        has_board = true;
+        board = b;
+        p.show();
       }
 }
